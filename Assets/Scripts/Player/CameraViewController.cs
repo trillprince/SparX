@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class CameraViewController : MonoBehaviour
@@ -11,21 +13,38 @@ public class CameraViewController : MonoBehaviour
 
     private float xRotation;
 
-    // Start is called before the first frame update
+    private PhotonView photonViewRef;
+
+    private Camera cameraRef;
+
+    private void Awake()
+    {
+        cameraRef = GetComponentInParent<Camera>();
+        cameraRef.enabled = false;
+    }
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        photonViewRef = GetComponentInParent<PhotonView>();
+        if (photonViewRef.IsMine)
+        {
+            cameraRef.enabled = true;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * 10 * mouseXSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * 10 * mouseYSensitivity * Time.deltaTime;
+        if (photonViewRef.IsMine)
+        {
+            float mouseX = Input.GetAxis("Mouse X") * 8 * mouseXSensitivity * Time.deltaTime;
+            float mouseY = Input.GetAxis("Mouse Y") * 8 * mouseYSensitivity * Time.smoothDeltaTime;
 
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        playerTransform.Rotate(Vector3.up * mouseX);
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            playerTransform.Rotate(Vector3.up * mouseX);
+        }
     }
 }
