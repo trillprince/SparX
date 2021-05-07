@@ -1,24 +1,29 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.IO;
+using Photon.Pun;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
+        CreatePlayer();
     }
 
+    /*public override void OnJoinedRoom()
+    {
+    }*/
+
+    private void CreatePlayer()
+    {
+        Debug.Log("Creating Player");
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonPlayer"), Vector3.zero, Quaternion.identity);
+    }
+    
     // Update is called once per frame
     void Update()
     {
         
     }
 
-    private void Awake()
-    {
-        Application.targetFrameRate = 60;
-    } 
+  
 }
