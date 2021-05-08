@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Photon.Pun;
 using Unity.Profiling;
 using UnityEngine;
 
@@ -58,7 +59,9 @@ public class ProfilerWidgetComponent : MonoBehaviour
             stringBuilder.AppendLine($"Mesh Used Memory: {toMegaBytes(meshMemoryRecorder.LastValue)} Mb");
         }
 
-        stringBuilder.AppendLine($"FPS: " + fps);
+        stringBuilder.AppendLine("FPS: " + fps);
+
+        stringBuilder.AppendLine("Ping: " + PhotonNetwork.GetPing());
 
         text = stringBuilder.ToString();
     }
@@ -89,6 +92,6 @@ public class ProfilerWidgetComponent : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.TextArea(new Rect(10, 30, 250, 90), text);
+        GUI.TextArea(new Rect(10, 30, 250, 110), text);
     }
 }
