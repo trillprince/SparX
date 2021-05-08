@@ -29,10 +29,12 @@ public class GameController : MonoBehaviour
         var characterController = player.GetComponent<CharacterController>();
         var photonView = player.GetComponent<PhotonView>();
         var camera = player.GetComponentInChildren<Camera>();
+        var audioListener = player.GetComponentInChildren<AudioListener>();
         if (photonView.IsMine)
         {
             characterController.enabled = true;
             camera.enabled = true;
+            audioListener.enabled = true;
         }
     }
 
